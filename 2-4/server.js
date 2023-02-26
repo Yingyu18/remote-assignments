@@ -18,12 +18,11 @@ app.post('/users', function (req, res, next) {
   
   //check input
   var rules = /[a-zA-Z0-9]*/;
-  if(!rules.test(body.name)){ next();}
-  else{ rules = /[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/;}
-  if(!rules.test(body.email)){ next();}
-  else{}
-
-  console.log(moment().format(("llll")));
+  if(!rules.test(body.name)){ res.status(403).json({error:"invalid name"});}
+  else{ rules = /[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/;
+  if(!rules.test(body.email)){ res.status(403).json({error:"invalid email"});}
+  else{rules = /[A-Za-z|/?.>,<‘”;:|]}[{=+-_)(*&^%$#@ !`~]{3,}/
+  if (!rules.test(body.password)){ res.status(400).json({error:"invalid password"});}}}
 
   var sql = `INSERT INTO users (name, email, password, created) VALUES ("${body.name}", "${body.email}", "${body.password}", "${moment().format(("llll"))}")`;
   connection.query(sql, function (err, result) {
