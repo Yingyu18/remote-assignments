@@ -21,7 +21,7 @@ app.post('/users', function (req, res, next) {
   if(!rules.test(body.name)){ res.status(403).json({error:"invalid name"});}
   else{ rules = /[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/;
   if(!rules.test(body.email)){ res.status(403).json({error:"invalid email"});}
-  else{rules = /[A-Za-z|/?.>,<‘”;:|]}[{=+-_)(*&^%$#@ !`~]{3,}/
+  else{rules = /[A-Za-z?.>,<‘”;:|=+-_)(*&^%$#@ !`~]{3,}/
   if (!rules.test(body.password)){ res.status(400).json({error:"invalid password"});}}}
 
   var sql = `INSERT INTO users (name, email, password, created) VALUES ("${body.name}", "${body.email}", "${body.password}", "${moment().format(("llll"))}")`;
@@ -30,14 +30,33 @@ app.post('/users', function (req, res, next) {
         res.status(400).json({error:"internal server error"});
         throw err;
     }
-    console.log("1 record inserted");}) 
-    //res.send("OK");
-});
+    console.log("1 record inserted"); 
+    connection.query(`SELECT * FROM users WHERE email ='${body.email}'`, function (err, results) {
+    if(err) throw err;
+    console.dir(results);
+    res.send(
+    {	
+ 	data:{
+		user:{
+			id:    results[0].id,
+			name:  body.name,
+			email: body.email
+		},
+		date:  req.headers['request-date']
 
+	}
+
+    }
+    );})
+  });
+})
+app.get('/healthcheck', (req, res)=>{
+	res.send('OK');	
+})
 //get => query
 app.get('/users/:id', (req, response)=> { 
     const id = req.params.id;
-    connection.query(`SELECT * FROM users WHERE id = ${id}`, function (err, result) {
+    connection.query(`SELECT * FROM users WHERE id = ${id}`, function (err, result) {   
         if (err){
         res.status(400).json({error:"internal server error"});
         throw err;}
@@ -49,7 +68,7 @@ app.get('/users/:id', (req, response)=> {
                     name:  `${result[0].name}`,
                     email: `${result[0].email}`
                 },
-                date:result[0].created
+                date: req.headers['request-date']
             }
         }
         );
