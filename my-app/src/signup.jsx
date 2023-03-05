@@ -3,6 +3,7 @@ export const Signup = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+    const [result, setResult] = useState('');
 
     //用 json 傳資料
     var data={
@@ -11,21 +12,21 @@ export const Signup = () => {
         pass: pass
     }
     let item={name, email, pass};
-    let url="http://localhost:3030/users"
+    let url="http://localhost:3030/users";
     const handleSubmit = (e) => {
         e.preventDefault() // 阻止表單送出
         console.log(item)
         fetch(url, {
             method: "POST",
              headers:{
-                "request-date":`${new Date().toUTCString}`,
+                "request-date":`${ new Date().toUTCString() }`,
                 "Content-Type":"application/json"
              },
              body: JSON.stringify(data)
         })  
         .then(res => res.json())
-        .then(res => console.log(res))
-
+        .then(res => { setResult(res.data.user);})
+        console.log(result); 
     }
 
     return(
@@ -41,6 +42,7 @@ export const Signup = () => {
                 <input value={email} onChange={(e)=>setEmail(e.target.value)} type='email' id='email' name='email'></input><br/>
                 <input value={pass} onChange={(e)=>setPass(e.target.value)} type='password' id='password' name='password'></input><br/>
                 <button type='submit' onClick={handleSubmit}>Signup</button>
+                <div>{(result=='')?"":JSON.stringify(result)}</div>
             </div>               
             
         </form>

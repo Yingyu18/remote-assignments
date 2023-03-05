@@ -35,6 +35,7 @@ app.post('/users', function (req, res, next) {
   var sql = `INSERT INTO users (name, email, password) VALUES ("${body.name}", "${body.email}", "${body.pass}" )`;
   connection.query(sql, function (err, result) {
     if (err) {
+        throw err;
         return res.status(400).json({error:"internal server error"});
         throw err;
     }
@@ -60,13 +61,13 @@ app.get('/healthcheck', (req, res)=>{
 	res.send('OK');	
 })
 //get => query
-app.get('/users/:id', (req, response)=> { 
+app.get('/users/:id', (req, res)=> { 
     const id = req.params.id;
     connection.query(`SELECT * FROM users WHERE id = ${id}`, function (err, result) {   
         if (err){
         res.status(400).json({error:"internal server error"});
         throw err;}
-        response.send(
+        res.send(
         { 
             data:{
                 user:{
