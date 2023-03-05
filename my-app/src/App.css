@@ -1,0 +1,18 @@
+.App {
+  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.AlignRight {
+  text-align: right;
+  width: 100%; 
+  margin-right: 20px;
+}
