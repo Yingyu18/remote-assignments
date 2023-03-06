@@ -12,14 +12,22 @@ export const Signup = () => {
         pass: pass
     }
     let item={name, email, pass};
+<<<<<<< HEAD
     let url="http://localhost:3030/users";
+=======
+    let url="http://18.177.129.216:3030/users"
+>>>>>>> dbe0f19 (ip address:ec2)
     const handleSubmit = (e) => {
         e.preventDefault() // 阻止表單送出
         console.log(item)
         fetch(url, {
             method: "POST",
              headers:{
+<<<<<<< HEAD
                 "request-date":`${ new Date().toUTCString() }`,
+=======
+                "request-date":`${new Date().toUTCString()}`,
+>>>>>>> dbe0f19 (ip address:ec2)
                 "Content-Type":"application/json"
              },
              body: JSON.stringify(data)
