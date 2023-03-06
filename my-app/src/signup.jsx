@@ -12,30 +12,16 @@ export const Signup = () => {
         pass: pass
     }
     let item={name, email, pass};
-<<<<<<< HEAD
-    let url="http://18.177.129.216:3030/users"
-=======
-
-
-
     let url="http://18.177.129.216:3030/users"
 
->>>>>>> 1b26696 (layout twisted)
     const handleSubmit = (e) => {
         e.preventDefault() // 阻止表單送出
         console.log(item)
         fetch(url, {
             method: "POST",
              headers:{
-<<<<<<< HEAD
                 "request-date":`${ new Date().toUTCString() }`,
-=======
 
-              "request-date":`${ new Date().toUTCString() }`,
-
-
-
->>>>>>> 1b26696 (layout twisted)
                 "Content-Type":"application/json"
              },
              body: JSON.stringify(data)
