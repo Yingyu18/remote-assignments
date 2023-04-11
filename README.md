@@ -1,5 +1,5 @@
 # remote-assignments
-2023_remote
+aws2023_remote_hw1
 
 <ul>
 <li>Description</li>
